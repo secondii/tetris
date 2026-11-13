@@ -28,12 +28,22 @@
 - 响应式布局，适配桌面与手机竖屏，高分屏适配
 - 切到后台自动暂停
 
-## 部署到 Gitee Pages
+## 部署到 GitHub Pages
 
-1. 在 Gitee 新建仓库 `tetris`，**开源**，**不要**勾选初始化 README
-2. 在本目录运行 `publish.ps1`，按提示输入仓库地址并推送
-3. 打开仓库页面 → 服务 → Gitee Pages → 分支选 `master` → 启动
-4. 访问 `https://<你的用户名>.gitee.io/tetris`
+1. 在 GitHub 新建 **public** 仓库 `tetris`，**不要**勾选 `Add a README file`
+2. 在本目录运行 `publish-github.ps1`，按提示输入用户名、仓库名
+   （密码栏填 Personal Access Token，不是登录密码）
+3. 打开仓库 `Settings → Pages`，Source 选 `Deploy from a branch`，
+   Branch 选 `main`、目录选 `/ (root)`，点 `Save`
+4. 等 1~3 分钟，访问 `https://<你的用户名>.github.io/tetris/`
+
+> 本仓库含 `.nojekyll`，用于跳过 Jekyll 处理，纯静态页发布更快更稳。
+
+### 关于 Gitee
+
+Gitee 已停止向新用户提供 Pages 服务，且帮助文档中已无该功能。
+Gitee 目前只能作为代码仓库使用，无法直接对外提供网页访问。
+`publish.ps1` 仍可用于把代码推到 Gitee 做备份。
 
 ## License
 
