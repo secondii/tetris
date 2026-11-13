@@ -1,4 +1,4 @@
-# 俄罗斯方块 · 一键发布到 Gitee
+﻿# 俄罗斯方块 · 一键发布到 Gitee
 # 用法：右键「使用 PowerShell 运行」，或在此目录执行   .\publish.ps1
 # 需要：已安装 Git for Windows，并且已在 Gitee 建好空仓库
 
