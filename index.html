@@ -51,17 +51,41 @@
   @keyframes shk{0%{transform:translate(0,0)}25%{transform:translate(2px,-2px)}50%{transform:translate(-2px,2px)}
     75%{transform:translate(1px,1px)}100%{transform:translate(0,0)}}
   @media (pointer:coarse),(max-width:820px){
-    #root{padding:6px;height:100%;justify-content:center}
-    #app{flex-direction:column;gap:8px;align-items:center}
-    .side{flex-direction:row;width:100%;max-width:460px;justify-content:space-between;gap:8px;align-items:center}
-    .panel{padding:6px 8px}
-    #boardWrap{height:min(58vh,560px)}
-    #hold{width:54px;height:54px}
-    #next{width:54px;height:54px}
-    .stats{flex-direction:row;flex:1;min-width:0;justify-content:space-around;align-items:center;gap:4px}
-    .stat{flex-direction:column;align-items:center;gap:1px;font-size:9px}
-    .stat b{font-size:14px}
-    #touch{display:grid}
+    /* 用 dvh 让地址栏收起/展开时高度自适应；老浏览器回退到 100vh */
+    #root{
+      height:100vh;height:100dvh;
+      padding:8px;
+      padding-bottom:calc(8px + env(safe-area-inset-bottom));
+      justify-content:flex-start;
+      gap:8px;
+      overflow-y:auto;
+      -webkit-overflow-scrolling:touch;
+    }
+    /* 顶部一行放 HOLD / 数据 / NEXT，棋盘独占剩余全部高度 */
+    #app{
+      flex:1 1 auto;min-height:0;width:100%;
+      display:grid;
+      grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);
+      grid-template-rows:auto minmax(0,1fr);
+      align-items:center;justify-items:center;gap:8px;
+    }
+    aside.side{flex-direction:row;gap:6px;align-items:center;min-width:0;width:100%}
+    aside.side:first-of-type{grid-column:1;grid-row:1;justify-content:flex-start}
+    aside.side:last-of-type{grid-column:3;grid-row:1;justify-content:flex-end}
+    .panel{padding:5px 7px;border-radius:12px}
+    #boardWrap{
+      grid-column:1 / -1;grid-row:2;
+      height:100%;min-height:0;width:auto;max-width:100%;
+      aspect-ratio:1/2;
+      align-self:center;justify-self:center;
+    }
+    #hold{width:52px;height:52px}
+    #next{width:52px;height:52px}
+    .stats{flex-direction:row;flex:1 1 auto;min-width:0;justify-content:space-around;align-items:center;gap:2px}
+    .stat{flex-direction:column;align-items:center;gap:0;font-size:9px;letter-spacing:0}
+    .stat b{font-size:13px}
+    #touch{display:grid;margin-top:0;max-width:520px}
+    .tbtn{height:56px;font-size:22px}
   }
 </style>
 </head>
@@ -177,6 +201,11 @@ function resizeAll(){
 }
 window.addEventListener('resize', resizeAll);
 window.addEventListener('orientationchange', function(){ setTimeout(resizeAll, 120); });
+/* 手机浏览器地址栏收起/展开会改变可视区高度(dvh)，单独监听一次 */
+if (window.visualViewport && window.visualViewport.addEventListener){
+  window.visualViewport.addEventListener('resize', function(){ setTimeout(resizeAll, 80); });
+}
+window.addEventListener('load', function(){ setTimeout(resizeAll, 60); });
 
 /* ---------------- 绘制 ---------------- */
 function roundRect(g, x, y, w, h, r){

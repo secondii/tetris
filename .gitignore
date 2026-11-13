@@ -10,3 +10,6 @@ desktop.ini
 *.log
 *.bak
 ~$*
+
+# 本地私有笔记
+git.txt
